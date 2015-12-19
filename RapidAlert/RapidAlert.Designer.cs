@@ -29,30 +29,29 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraBars.Ribbon.ReduceOperation reduceOperation2 = new DevExpress.XtraBars.Ribbon.ReduceOperation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RapidAlert));
-            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
+            DevExpress.XtraBars.Ribbon.ReduceOperation reduceOperation1 = new DevExpress.XtraBars.Ribbon.ReduceOperation();
             this.txtEKeyword = new DevExpress.XtraEditors.TextEdit();
             this.groupKeywords = new DevExpress.XtraEditors.GroupControl();
+            this.btnSelectAll = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxKeywords = new DevExpress.XtraEditors.ListBoxControl();
             this.btnAddKeyword = new DevExpress.XtraEditors.SimpleButton();
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.ddlMinutes = new System.Windows.Forms.ComboBox();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.btnClearFolders = new DevExpress.XtraEditors.SimpleButton();
             this.btnSelectFolder = new DevExpress.XtraEditors.SimpleButton();
             this.btnSaveMinimize = new DevExpress.XtraEditors.SimpleButton();
             this.groupFolders = new DevExpress.XtraEditors.GroupControl();
+            this.btnClearFolders = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxFolders = new DevExpress.XtraEditors.ListBoxControl();
             this.appNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.postTimer = new System.Windows.Forms.Timer(this.components);
-            this.btnSelectAll = new DevExpress.XtraEditors.SimpleButton();
-            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
+            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             ((System.ComponentModel.ISupportInitialize)(this.txtEKeyword.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupKeywords)).BeginInit();
             this.groupKeywords.SuspendLayout();
@@ -63,45 +62,8 @@
             this.groupFolders.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxFolders)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ribbonPage1
-            // 
-            this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroup1});
-            this.ribbonPage1.Name = "ribbonPage1";
-            reduceOperation2.Behavior = DevExpress.XtraBars.Ribbon.ReduceOperationBehavior.Single;
-            reduceOperation2.Group = null;
-            reduceOperation2.ItemLinkIndex = 0;
-            reduceOperation2.ItemLinksCount = 0;
-            reduceOperation2.Operation = DevExpress.XtraBars.Ribbon.ReduceOperationType.Gallery;
-            this.ribbonPage1.ReduceOperations.Add(reduceOperation2);
-            this.ribbonPage1.Text = "Log Files";
-            // 
-            // ribbonPageGroup1
-            // 
-            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
-            // 
-            // ribbonControl1
-            // 
-            this.ribbonControl1.ExpandCollapseItem.Id = 0;
-            this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.ribbonControl1.ExpandCollapseItem,
-            this.barHeaderItem1});
-            this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbonControl1.MaxItemId = 2;
-            this.ribbonControl1.Name = "ribbonControl1";
-            this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.ribbonPage1});
-            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
-            this.ribbonControl1.Size = new System.Drawing.Size(1340, 155);
-            // 
-            // barHeaderItem1
-            // 
-            this.barHeaderItem1.Caption = "barHeaderItem1";
-            this.barHeaderItem1.Id = 1;
-            this.barHeaderItem1.Name = "barHeaderItem1";
             // 
             // txtEKeyword
             // 
@@ -127,6 +89,16 @@
             this.groupKeywords.Size = new System.Drawing.Size(374, 445);
             this.groupKeywords.TabIndex = 2;
             this.groupKeywords.Text = "Keywords";
+            // 
+            // btnSelectAll
+            // 
+            this.btnSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("btnSelectAll.Image")));
+            this.btnSelectAll.Location = new System.Drawing.Point(310, 3);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(59, 23);
+            this.btnSelectAll.TabIndex = 11;
+            this.btnSelectAll.Text = "Clear";
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             // 
             // listBoxKeywords
             // 
@@ -158,7 +130,6 @@
             this.splitContainerControl1.Panel1.Controls.Add(this.txtEKeyword);
             this.splitContainerControl1.Panel1.Controls.Add(this.groupKeywords);
             this.splitContainerControl1.Panel1.Text = "Panel1";
-            this.splitContainerControl1.Panel2.Controls.Add(this.btnClearFolders);
             this.splitContainerControl1.Panel2.Controls.Add(this.btnSelectFolder);
             this.splitContainerControl1.Panel2.Controls.Add(this.btnSaveMinimize);
             this.splitContainerControl1.Panel2.Controls.Add(this.groupFolders);
@@ -199,17 +170,6 @@
             this.labelControl1.TabIndex = 9;
             this.labelControl1.Text = "Update";
             // 
-            // btnClearFolders
-            // 
-            this.btnClearFolders.Image = ((System.Drawing.Image)(resources.GetObject("btnClearFolders.Image")));
-            this.btnClearFolders.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleLeft;
-            this.btnClearFolders.Location = new System.Drawing.Point(147, 22);
-            this.btnClearFolders.Name = "btnClearFolders";
-            this.btnClearFolders.Size = new System.Drawing.Size(139, 40);
-            this.btnClearFolders.TabIndex = 11;
-            this.btnClearFolders.Text = "Clear Folders";
-            this.btnClearFolders.Click += new System.EventHandler(this.btnClearFolders_Click);
-            // 
             // btnSelectFolder
             // 
             this.btnSelectFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnSelectFolder.Image")));
@@ -235,6 +195,10 @@
             // 
             this.groupFolders.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.groupFolders.Appearance.Options.UseFont = true;
+            this.groupFolders.AppearanceCaption.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.groupFolders.AppearanceCaption.Options.UseFont = true;
+            this.groupFolders.CaptionImagePadding = new System.Windows.Forms.Padding(5);
+            this.groupFolders.Controls.Add(this.btnClearFolders);
             this.groupFolders.Controls.Add(this.listBoxFolders);
             this.groupFolders.Location = new System.Drawing.Point(145, 68);
             this.groupFolders.Name = "groupFolders";
@@ -242,12 +206,22 @@
             this.groupFolders.TabIndex = 3;
             this.groupFolders.Text = "Folders";
             // 
+            // btnClearFolders
+            // 
+            this.btnClearFolders.Image = ((System.Drawing.Image)(resources.GetObject("btnClearFolders.Image")));
+            this.btnClearFolders.Location = new System.Drawing.Point(310, 3);
+            this.btnClearFolders.Name = "btnClearFolders";
+            this.btnClearFolders.Size = new System.Drawing.Size(59, 23);
+            this.btnClearFolders.TabIndex = 12;
+            this.btnClearFolders.Text = "Clear";
+            this.btnClearFolders.Click += new System.EventHandler(this.btnClearFolders_Click);
+            // 
             // listBoxFolders
             // 
             this.listBoxFolders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxFolders.Location = new System.Drawing.Point(2, 24);
+            this.listBoxFolders.Location = new System.Drawing.Point(2, 29);
             this.listBoxFolders.Name = "listBoxFolders";
-            this.listBoxFolders.Size = new System.Drawing.Size(370, 419);
+            this.listBoxFolders.Size = new System.Drawing.Size(370, 414);
             this.listBoxFolders.TabIndex = 0;
             // 
             // appNotifyIcon
@@ -273,15 +247,48 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(108, 26);
             this.toolStripMenuItem1.Text = "Exit";
             // 
-            // btnSelectAll
+            // postTimer
             // 
-            this.btnSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("btnSelectAll.Image")));
-            this.btnSelectAll.Location = new System.Drawing.Point(310, 3);
-            this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(59, 23);
-            this.btnSelectAll.TabIndex = 11;
-            this.btnSelectAll.Text = "Clear";
-            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            this.postTimer.Tick += new System.EventHandler(this.postTimer_Tick);
+            // 
+            // ribbonPage1
+            // 
+            this.ribbonPage1.Name = "ribbonPage1";
+            reduceOperation1.Behavior = DevExpress.XtraBars.Ribbon.ReduceOperationBehavior.Single;
+            reduceOperation1.Group = null;
+            reduceOperation1.ItemLinkIndex = 0;
+            reduceOperation1.ItemLinksCount = 0;
+            reduceOperation1.Operation = DevExpress.XtraBars.Ribbon.ReduceOperationType.Gallery;
+            this.ribbonPage1.ReduceOperations.Add(reduceOperation1);
+            this.ribbonPage1.Text = "Log Files";
+            // 
+            // barHeaderItem1
+            // 
+            this.barHeaderItem1.Caption = "barHeaderItem1";
+            this.barHeaderItem1.Id = 1;
+            this.barHeaderItem1.Name = "barHeaderItem1";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "barButtonItem1";
+            this.barButtonItem1.Id = 2;
+            this.barButtonItem1.Name = "barButtonItem1";
+            // 
+            // ribbonControl1
+            // 
+            this.ribbonControl1.ExpandCollapseItem.Id = 0;
+            this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbonControl1.ExpandCollapseItem,
+            this.barHeaderItem1,
+            this.barButtonItem1});
+            this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
+            this.ribbonControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ribbonControl1.MaxItemId = 3;
+            this.ribbonControl1.Name = "ribbonControl1";
+            this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
+            this.ribbonPage1});
+            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
+            this.ribbonControl1.Size = new System.Drawing.Size(1340, 155);
             // 
             // RapidAlert
             // 
@@ -299,7 +306,6 @@
             this.Text = "Rapid Alert 1.0";
             this.Load += new System.EventHandler(this.RapidAlert_Load);
             this.Resize += new System.EventHandler(this.RapidAlert_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEKeyword.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupKeywords)).EndInit();
             this.groupKeywords.ResumeLayout(false);
@@ -310,6 +316,7 @@
             this.groupFolders.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.listBoxFolders)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,8 +324,6 @@
 
         #endregion
 
-        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
-        private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
         private DevExpress.XtraEditors.TextEdit txtEKeyword;
         private DevExpress.XtraEditors.GroupControl groupKeywords;
         private DevExpress.XtraEditors.SimpleButton btnAddKeyword;
@@ -329,15 +334,17 @@
         private DevExpress.XtraEditors.GroupControl groupFolders;
         private DevExpress.XtraEditors.SimpleButton btnSelectFolder;
         private DevExpress.XtraEditors.ListBoxControl listBoxKeywords;
-        private DevExpress.XtraEditors.SimpleButton btnClearFolders;
         private DevExpress.XtraEditors.ListBoxControl listBoxFolders;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
-        private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
         private System.Windows.Forms.NotifyIcon appNotifyIcon;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.Timer postTimer;
         private DevExpress.XtraEditors.SimpleButton btnSelectAll;
+        private DevExpress.XtraEditors.SimpleButton btnClearFolders;
+        private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
+        private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
 
     }
 }

@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.Utils;
-using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraBars.Ribbon;
 using Newtonsoft.Json;
 using RapidAlert.Classes;
+using RapidAlert.Properties;
 
 namespace RapidAlert
 {
-    public partial class RapidAlert : DevExpress.XtraBars.Ribbon.RibbonForm
+    public partial class RapidAlert : RibbonForm
     {
+
         private delegate void invokeMethodDelegate(object sender, FileSystemEventArgs e);
 
         public static string Kewords = "";
@@ -43,8 +41,7 @@ namespace RapidAlert
         {
             if (e.ChangeType == WatcherChangeTypes.Created || e.ChangeType == WatcherChangeTypes.Changed)
             {
-                if (CheckKeywordsMatch(e))
-                    AppendToJsonPost(e);
+                CheckKeywordsMatch(e);
             }
         }
         private static bool CheckKeywordsMatch(FileSystemEventArgs e)
@@ -77,11 +74,7 @@ namespace RapidAlert
              
             return keywordMatch;
         }
-        private static void AppendToJsonPost(FileSystemEventArgs e)
-        {
-             
-        }
-         
+       
         private void LoadConfiguration()
         {
             var inif =
@@ -120,7 +113,7 @@ namespace RapidAlert
             }
         }
 
-        private void SaveINIFile()
+        private void SaveIniFile()
         {
             var inif =
                 new INIFile(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
@@ -154,6 +147,24 @@ namespace RapidAlert
                 var watcher = new Watcher(item.ToString(), "*.*", mymethod);
                 watcher.StartWatch();
             }
+            
+            postTimer.Interval = GetInterval();
+            postTimer.Start();
+
+
+            appNotifyIcon.BalloonTipTitle = Resources.RapidAlert_BeginProcess_Rapid_Alert;
+            appNotifyIcon.BalloonTipText = Resources.RapidAlert_BeginProcess_Rapid_Alert_Process_is_running_in_background_;
+            appNotifyIcon.Visible = true;
+            appNotifyIcon.ShowBalloonTip(500);this.ShowInTaskbar = false;
+            this.Hide();
+        }
+
+        private int GetInterval()
+        { 
+            return Convert.ToInt32(TimeSpan.FromMinutes(
+                Convert.ToInt32(ddlMinutes.Text.Substring(0, ddlMinutes.Text.IndexOf(' '))))
+                .TotalMilliseconds);
+
         }
 
         private static void CheckFolders()
@@ -177,7 +188,7 @@ namespace RapidAlert
 
         private void btnSaveMinimize_Click(object sender, EventArgs e)
         {
-            SaveINIFile();
+            SaveIniFile();
             LoadConfiguration();
             BeginProcess();
         }
@@ -208,9 +219,9 @@ namespace RapidAlert
             switch (this.WindowState)
             {
                 case FormWindowState.Minimized:
-                    appNotifyIcon.BalloonTipTitle = "Rapid Alert";
-                    appNotifyIcon.BalloonTipText = "Rapid Alert is running in background.";
-                    appNotifyIcon.Visible = true;
+                    appNotifyIcon.BalloonTipTitle = Resources.RapidAlert_BeginProcess_Rapid_Alert;
+                    appNotifyIcon.BalloonTipText = Resources.RapidAlert_BeginProcess_Rapid_Alert_Process_is_running_in_background_;
+                    appNotifyIcon.Icon = Resources.Gear_icon_291x300;appNotifyIcon.Visible = true;
                     appNotifyIcon.ShowBalloonTip(500);
                     this.ShowInTaskbar = false;
                     this.Hide();
@@ -232,10 +243,27 @@ namespace RapidAlert
 
         private void appNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if(this.WindowState == FormWindowState.Minimized)
-            {this.WindowState = FormWindowState.Normal;
-                this.ShowInTaskbar = true;
-                this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            this.Show();
+            this.appNotifyIcon.Icon = null;
+        }
+
+        private async void postTimer_Tick(object sender, EventArgs e)
+        { 
+            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(FileList));
+
+            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponse = await httpClient.PostAsync(Resources.API_URL, httpContent);
+
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    FileList.Clear();
+                }
             }
         }
     }
