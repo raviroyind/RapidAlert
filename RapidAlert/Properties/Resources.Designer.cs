@@ -61,12 +61,48 @@ namespace RapidAlert.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string A {
+            get {
+                return ResourceManager.GetString("A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://www.rapidtask.us/API/agent/.
+        /// </summary>
+        internal static string API_URL {
+            get {
+                return ResourceManager.GetString("API_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Gear_icon_291x300 {
             get {
                 object obj = ResourceManager.GetObject("Gear_icon_291x300", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rapid Alert.
+        /// </summary>
+        internal static string RapidAlert_BeginProcess_Rapid_Alert {
+            get {
+                return ResourceManager.GetString("RapidAlert_BeginProcess_Rapid_Alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rapid Alert Process is running in background..
+        /// </summary>
+        internal static string RapidAlert_BeginProcess_Rapid_Alert_Process_is_running_in_background_ {
+            get {
+                return ResourceManager.GetString("RapidAlert_BeginProcess_Rapid_Alert_Process_is_running_in_background_", resourceCulture);
             }
         }
         
