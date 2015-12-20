@@ -30,8 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RapidAlert));
-            DevExpress.XtraBars.Ribbon.ReduceOperation reduceOperation1 = new DevExpress.XtraBars.Ribbon.ReduceOperation();
+            DevExpress.XtraBars.Ribbon.ReduceOperation reduceOperation4 = new DevExpress.XtraBars.Ribbon.ReduceOperation();
             this.txtEKeyword = new DevExpress.XtraEditors.TextEdit();
+            this.ribbonControlTop = new DevExpress.XtraBars.Ribbon.RibbonControl();
+          //  this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            //this.barHeaderItem2 = new DevExpress.XtraBars.BarHeaderItem();
+            //this.barEditItem1 = new DevExpress.XtraBars.BarEditItem();
+            //this.repositoryItemPictureEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
+            this.barButtonViewLog = new DevExpress.XtraBars.BarButtonItem();
+            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.groupKeywords = new DevExpress.XtraEditors.GroupControl();
             this.btnSelectAll = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxKeywords = new DevExpress.XtraEditors.ListBoxControl();
@@ -48,11 +57,13 @@
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.postTimer = new System.Windows.Forms.Timer(this.components);
-            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-            this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
+            //this.barCheckStartWithWindows = new DevExpress.XtraBars.BarCheckItem();
+            //this.barEditItem2 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            //this.barToggleSwitchItem1 = new DevExpress.XtraBars.BarToggleSwitchItem();
             ((System.ComponentModel.ISupportInitialize)(this.txtEKeyword.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControlTop)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.repositoryItemPictureEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupKeywords)).BeginInit();
             this.groupKeywords.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxKeywords)).BeginInit();
@@ -62,18 +73,107 @@
             this.groupFolders.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxFolders)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtEKeyword
             // 
             this.txtEKeyword.Location = new System.Drawing.Point(137, 524);
-            this.txtEKeyword.MenuManager = this.ribbonControl1;
+            this.txtEKeyword.MenuManager = this.ribbonControlTop;
             this.txtEKeyword.Name = "txtEKeyword";
             this.txtEKeyword.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txtEKeyword.Properties.Appearance.Options.UseFont = true;
             this.txtEKeyword.Size = new System.Drawing.Size(244, 30);
             this.txtEKeyword.TabIndex = 0;
+            // 
+            // ribbonControlTop
+            // 
+            this.ribbonControlTop.ExpandCollapseItem.Id = 0;
+            this.ribbonControlTop.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbonControlTop.ExpandCollapseItem,
+            //this.barHeaderItem1,
+            this.barButtonItem1,
+            //this.barHeaderItem2,
+            //this.barEditItem1,
+            this.barButtonViewLog,
+            //this.barCheckStartWithWindows,
+            //this.barEditItem2,
+            //this.barToggleSwitchItem1
+            });
+            this.ribbonControlTop.Location = new System.Drawing.Point(0, 0);
+            this.ribbonControlTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ribbonControlTop.MaxItemId = 9;
+            this.ribbonControlTop.Name = "ribbonControlTop";
+            this.ribbonControlTop.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
+            this.ribbonPage1});
+            this.ribbonControlTop.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            //this.repositoryItemPictureEdit1,
+            this.repositoryItemComboBox1});
+            this.ribbonControlTop.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
+            this.ribbonControlTop.Size = new System.Drawing.Size(1340, 155);
+            this.ribbonControlTop.Paint += new System.Windows.Forms.PaintEventHandler(this.ribbonControl1_Paint);
+            // 
+            // barHeaderItem1
+            // 
+            //this.barHeaderItem1.Caption = "barHeaderItem1";
+            //this.barHeaderItem1.Id = 1;
+            //this.barHeaderItem1.Name = "barHeaderItem1";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "barButtonItem1";
+            this.barButtonItem1.Id = 2;
+            this.barButtonItem1.Name = "barButtonItem1";
+            // 
+            // barHeaderItem2
+            // 
+            //this.barHeaderItem2.Caption = "Rapid Alert";
+            //this.barHeaderItem2.Id = 3;
+            //this.barHeaderItem2.Name = "barHeaderItem2";
+            // 
+            // barEditItem1
+            // 
+            //this.barEditItem1.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True;
+            //this.barEditItem1.Caption = "barEditItem1";
+            //this.barEditItem1.Edit = this.repositoryItemPictureEdit1;
+            //this.barEditItem1.Glyph = global::RapidAlert.Properties.Resources.rapidalert_logo;
+            //this.barEditItem1.Id = 4;
+            //this.barEditItem1.LargeGlyph = global::RapidAlert.Properties.Resources.rapidalert_logo;
+            //this.barEditItem1.Name = "barEditItem1";
+            //this.barEditItem1.Width = 200;
+            // 
+            // repositoryItemPictureEdit1
+            // 
+            //this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
+            // 
+            // barButtonViewLog
+            // 
+            this.barButtonViewLog.Caption = "View Logs";
+            this.barButtonViewLog.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonViewLog.Glyph")));
+            this.barButtonViewLog.Id = 5;
+            this.barButtonViewLog.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonViewLog.LargeGlyph")));
+            this.barButtonViewLog.Name = "barButtonViewLog";
+            this.barButtonViewLog.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonViewLog_ItemClick);
+            // 
+            // ribbonPage1
+            // 
+            this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup1});
+            this.ribbonPage1.Name = "ribbonPage1";
+            reduceOperation4.Behavior = DevExpress.XtraBars.Ribbon.ReduceOperationBehavior.Single;
+            reduceOperation4.Group = null;
+            reduceOperation4.ItemLinkIndex = 0;
+            reduceOperation4.ItemLinksCount = 0;
+            reduceOperation4.Operation = DevExpress.XtraBars.Ribbon.ReduceOperationType.Gallery;
+            this.ribbonPage1.ReduceOperations.Add(reduceOperation4);
+            this.ribbonPage1.Text = "Log Files";
+            // 
+            // ribbonPageGroup1
+            // 
+            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonViewLog);
+            //this.ribbonPageGroup1.ItemLinks.Add(this.barCheckStartWithWindows);
+            //this.ribbonPageGroup1.ItemLinks.Add(this.barToggleSwitchItem1);
+            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             // 
             // groupKeywords
             // 
@@ -251,44 +351,41 @@
             // 
             this.postTimer.Tick += new System.EventHandler(this.postTimer_Tick);
             // 
-            // ribbonPage1
+            // barCheckStartWithWindows
             // 
-            this.ribbonPage1.Name = "ribbonPage1";
-            reduceOperation1.Behavior = DevExpress.XtraBars.Ribbon.ReduceOperationBehavior.Single;
-            reduceOperation1.Group = null;
-            reduceOperation1.ItemLinkIndex = 0;
-            reduceOperation1.ItemLinksCount = 0;
-            reduceOperation1.Operation = DevExpress.XtraBars.Ribbon.ReduceOperationType.Gallery;
-            this.ribbonPage1.ReduceOperations.Add(reduceOperation1);
-            this.ribbonPage1.Text = "Log Files";
+            //this.barCheckStartWithWindows.Caption = "Run on Start";
+            //this.barCheckStartWithWindows.CheckBoxVisibility = DevExpress.XtraBars.CheckBoxVisibility.AfterText;
+            //this.barCheckStartWithWindows.Checked = true;
+            //this.barCheckStartWithWindows.Glyph = ((System.Drawing.Image)(resources.GetObject("barCheckStartWithWindows.Glyph")));
+            //this.barCheckStartWithWindows.Id = 6;
+            //this.barCheckStartWithWindows.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barCheckStartWithWindows.LargeGlyph")));
+            //this.barCheckStartWithWindows.Name = "barCheckStartWithWindows";
+            //this.barCheckStartWithWindows.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
+            //// 
+            //// barEditItem2
+            //// 
+            //this.barEditItem2.Caption = "Autorun";
+            //this.barEditItem2.Edit = this.repositoryItemComboBox1;
+            //this.barEditItem2.Glyph = ((System.Drawing.Image)(resources.GetObject("barEditItem2.Glyph")));
+            //this.barEditItem2.Id = 7;
+            //this.barEditItem2.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barEditItem2.LargeGlyph")));
+            //this.barEditItem2.Name = "barEditItem2";
+            //this.barEditItem2.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
-            // barHeaderItem1
+            // repositoryItemComboBox1
             // 
-            this.barHeaderItem1.Caption = "barHeaderItem1";
-            this.barHeaderItem1.Id = 1;
-            this.barHeaderItem1.Name = "barHeaderItem1";
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
             // 
-            // barButtonItem1
+            // barToggleSwitchItem1
             // 
-            this.barButtonItem1.Caption = "barButtonItem1";
-            this.barButtonItem1.Id = 2;
-            this.barButtonItem1.Name = "barButtonItem1";
-            // 
-            // ribbonControl1
-            // 
-            this.ribbonControl1.ExpandCollapseItem.Id = 0;
-            this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.ribbonControl1.ExpandCollapseItem,
-            this.barHeaderItem1,
-            this.barButtonItem1});
-            this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbonControl1.MaxItemId = 3;
-            this.ribbonControl1.Name = "ribbonControl1";
-            this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.ribbonPage1});
-            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
-            this.ribbonControl1.Size = new System.Drawing.Size(1340, 155);
+            //this.barToggleSwitchItem1.Caption = "Autorun";
+            //this.barToggleSwitchItem1.Glyph = ((System.Drawing.Image)(resources.GetObject("barToggleSwitchItem1.Glyph")));
+            //this.barToggleSwitchItem1.Id = 8;
+            //this.barToggleSwitchItem1.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barToggleSwitchItem1.LargeGlyph")));
+            //this.barToggleSwitchItem1.Name = "barToggleSwitchItem1";
             // 
             // RapidAlert
             // 
@@ -297,16 +394,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1340, 817);
             this.Controls.Add(this.splitContainerControl1);
-            this.Controls.Add(this.ribbonControl1);
+            this.Controls.Add(this.ribbonControlTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "RapidAlert";
-            this.Ribbon = this.ribbonControl1;
+            this.Ribbon = this.ribbonControlTop;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rapid Alert 1.0";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RapidAlert_FormClosing);
             this.Load += new System.EventHandler(this.RapidAlert_Load);
             this.Resize += new System.EventHandler(this.RapidAlert_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.txtEKeyword.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControlTop)).EndInit();
+            //((System.ComponentModel.ISupportInitialize)(this.repositoryItemPictureEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupKeywords)).EndInit();
             this.groupKeywords.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.listBoxKeywords)).EndInit();
@@ -316,7 +416,7 @@
             this.groupFolders.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.listBoxFolders)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -341,10 +441,19 @@
         private System.Windows.Forms.Timer postTimer;
         private DevExpress.XtraEditors.SimpleButton btnSelectAll;
         private DevExpress.XtraEditors.SimpleButton btnClearFolders;
-        private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
-        private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
+        private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControlTop;
+      //  private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
+       // private DevExpress.XtraBars.BarHeaderItem barHeaderItem2;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
+        //private DevExpress.XtraBars.BarEditItem barEditItem1;
+        //private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit repositoryItemPictureEdit1;
+        private DevExpress.XtraBars.BarButtonItem barButtonViewLog;
+       // private DevExpress.XtraBars.BarCheckItem barCheckStartWithWindows;
+        //private DevExpress.XtraBars.BarEditItem barEditItem2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        //private DevExpress.XtraBars.BarToggleSwitchItem barToggleSwitchItem1;
 
     }
 }

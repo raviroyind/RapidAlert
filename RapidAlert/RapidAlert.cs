@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraBars.Ribbon;
+using DevExpress.XtraEditors;
 using Newtonsoft.Json;
 using RapidAlert.Classes;
 using RapidAlert.Properties;
@@ -30,6 +31,12 @@ namespace RapidAlert
 
         private void btnAddKeyword_Click(object sender, EventArgs e)
         {
+            if (txtEKeyword.EditValue==null)
+            {
+                XtraMessageBox.Show("Plese enter a keyword!");
+                return;
+            }
+
             listBoxKeywords.Items.Add(txtEKeyword.EditValue.ToString());
             txtEKeyword.EditValue = string.Empty;
             txtEKeyword.Focus();
@@ -68,12 +75,15 @@ namespace RapidAlert
                             ComputerName = Environment.MachineName,
                             DetectionStatus = Status.Detection
                         }
-                   );  
+                   );
+  
+                    //Make entry to log file.
+                    Logger.Log("Detected "+filename+ " at location -"+e.FullPath.Substring(0,e.FullPath.LastIndexOf("\\", StringComparison.Ordinal)));
+                     
                 }
             }
              
-            return keywordMatch;
-        }
+            return keywordMatch;}
        
         private void LoadConfiguration()
         {
@@ -170,7 +180,10 @@ namespace RapidAlert
         private static void CheckFolders()
         {
             var specialFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                    "\\RapidAlert\\";
+                "\\RapidAlert\\";
+
+            var logFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                "\\RapidAlert\\Logs\\";
 
             if (!Directory.Exists(specialFolderPath))
             {
@@ -178,16 +191,28 @@ namespace RapidAlert
                 {
                     Directory.CreateDirectory(specialFolderPath);
                 }
-                catch (Exception ex)
+                catch
                 {
+                    // ignored
                 }
             }
-        }
+
+            if (!Directory.Exists(logFolderPath))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(logFolderPath);
+                    }
+                    catch
+                    {
+                       // ignored
+                    }
+                }
+         }
 
         #endregion Functions...
 
-        private void btnSaveMinimize_Click(object sender, EventArgs e)
-        {
+        private void btnSaveMinimize_Click(object sender, EventArgs e){
             SaveIniFile();
             LoadConfiguration();
             BeginProcess();
@@ -264,6 +289,29 @@ namespace RapidAlert
                     var responseContent = await httpResponse.Content.ReadAsStringAsync();
                     FileList.Clear();
                 }
+            }
+        }
+
+        private void barButtonViewLog_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+        }
+
+        private void ribbonControl1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void RapidAlert_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                appNotifyIcon.BalloonTipTitle = Resources.RapidAlert_BeginProcess_Rapid_Alert;
+                appNotifyIcon.BalloonTipText = Resources.RapidAlert_BeginProcess_Rapid_Alert_Process_is_running_in_background_;
+                appNotifyIcon.Icon = Resources.Gear_icon_291x300; appNotifyIcon.Visible = true;
+                appNotifyIcon.ShowBalloonTip(500);
+                this.ShowInTaskbar = false;
+                this.Hide();
+                BeginProcess();e.Cancel = true;
             }
         }
     }
