@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,9 +31,10 @@ namespace RapidAlert
         {
             XmlConfigurator.Configure();
             InitializeComponent();
+            splitContainerControl1.SplitterPosition = this.splitContainerControl1.Width / 2;this.splitContainerControl1.Panel1.Width = this.splitContainerControl1.Width/2;
+            this.splitContainerControl1.Panel2.Width = this.splitContainerControl1.Width / 2;
             CheckFolders();
-            LoadConfiguration();
-        }
+            LoadConfiguration();}
 
         private void btnAddKeyword_Click(object sender, EventArgs e)
         {
@@ -54,20 +57,17 @@ namespace RapidAlert
                 CheckKeywordsMatch(e);
             }
         }
-        private static bool CheckKeywordsMatch(FileSystemEventArgs e)
+        private static void CheckKeywordsMatch(FileSystemEventArgs e)
         {
-            var keywordMatch = false;
-
-
             foreach (var word in Kewords.Split(','))
             {
                 var filename = Path.GetFileNameWithoutExtension(e.FullPath).ToLower();
-                var extenion = Path.GetExtension(e.FullPath).ToLower();
 
-                if (word.ToLower().Contains(filename) || word.ToLower().StartsWith(filename) || word.ToLower().EndsWith(filename) || word.Contains(extenion) || filename.ToLower().Contains(word.ToLower()) ||filename.ToLower().StartsWith(word) || filename.ToLower().EndsWith(word))
+                var extension = Path.GetExtension(e.FullPath);
+
+                if (word.ToLower().Contains(filename) || filename.ToLower().Contains(word.ToLower()) || filename.ToLower().StartsWith(word.ToLower()) || filename.ToLower().EndsWith(word.ToLower()) || CheckExtension(extension,word))
                 {
-                    keywordMatch = true;
-                   var duplicate = FileList.FirstOrDefault(x => x.location.ToLower().Contains(filename.ToLower()) && x.location.ToLower().Equals(e.FullPath.ToLower()));
+                    var duplicate = FileList.FirstOrDefault(x => x.location.ToLower().Contains(filename.ToLower()) && x.location.ToLower().Equals(e.FullPath.ToLower()));
 
                     if (duplicate == null)
                     {
@@ -78,46 +78,24 @@ namespace RapidAlert
                                 computer_name = Environment.MachineName,
                             }
                        );
-
                         //Make entry to log file.
-                        Logger.Info("Detected " + e.Name + " at location -" +
-                                    e.FullPath.Substring(0, e.FullPath.LastIndexOf("\\", StringComparison.Ordinal))+"\\");
-                        
-
-                    }
+                        Logger.Info("Detected " + e.Name + " at location -" + e.FullPath.Substring(0, e.FullPath.LastIndexOf("\\", StringComparison.Ordinal))+"\\");
+                   }
                 }
-
+                
             }
-            //foreach (var word in Kewords.Split(',').Where(word =>
-            //{
-            //    var fileName = Path.GetFileName(e.FullPath);
-            //    return fileName != null && fileName.ToLower().Contains(word.ToLower());
-            //}))
-            //{
-            //    keywordMatch = true;
-            //    var filename = Path.GetFileName(e.FullPath);
-            //    var duplicate = FileList.FirstOrDefault(x => x.location.ToLower().Contains(filename.ToLower()) && x.location.ToLower().Equals(e.FullPath.ToLower()));
-
-            //    if (duplicate == null)
-            //    {
-            //        FileList.Add(
-            //            new RapidFile
-            //            {
-            //                status = DetectionStatus.Detection,
-            //                location = e.FullPath,
-            //                computer_name = Environment.MachineName,
-            //            }
-            //       );
-  
-            //        //Make entry to log file.
-            //        Logger.Log("Detected "+filename+ " at location -"+e.FullPath.Substring(0,e.FullPath.LastIndexOf("\\", StringComparison.Ordinal)));
-                     
-            //    }
-            //}
-             
-            return keywordMatch;
         }
-       
+
+        private static bool CheckExtension(string extension, string word)
+        {
+            if (word.Contains("*"))
+                word = word.Replace("*", "");
+
+            if (extension.ToLower().Equals(word))
+                return true;
+            else
+                return false;
+        }
         private void LoadConfiguration()
         {
             var inif =
@@ -215,8 +193,7 @@ namespace RapidAlert
             var specialFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                 "\\RapidAlert\\";
 
-            var logFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                "\\RapidAlert\\Logs\\";
+            var logFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + "\\Orca Solutions\\RapidAlert 1. 0\\logs\\";
 
             if (!Directory.Exists(specialFolderPath))
             {
@@ -303,24 +280,29 @@ namespace RapidAlert
         {this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
             this.Show();
-            this.appNotifyIcon.Icon.Dispose();}
+            this.appNotifyIcon.Icon.Dispose();
+        }
+
         private async void postTimer_Tick(object sender, EventArgs e)
-        { 
+        {
+            if (FileList.Count == 0)
+                return;
            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(FileList));
-           stringPayload = stringPayload.ToLower();
+             
            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
            using (var httpClient = new HttpClient())
-            {
-                var httpResponse = await httpClient.PostAsync(Resources.API_URL, httpContent);
-               if (httpResponse.Content != null)
+           {
+                var httpResponse = await httpClient.PostAsync(ConfigurationManager.AppSettings["API_URL"], httpContent);
+                if (httpResponse.Content != null)
                 {
                     var responseContent = await httpResponse.Content.ReadAsStringAsync();FileList.Clear();
                 }
-            }
+           }
         }
+
         private void barButtonViewLog_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RapidAlert\\Logs\\");
+            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + "\\Orca Solutions\\RapidAlert 1. 0\\logs\\");
         }
 
         private void ribbonControl1_Paint(object sender, PaintEventArgs e)
@@ -340,6 +322,11 @@ namespace RapidAlert
                 this.Hide();
                 BeginProcess();e.Cancel = true;
             }
+        }
+
+        private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

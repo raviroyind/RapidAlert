@@ -54,6 +54,7 @@
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.postTimer = new System.Windows.Forms.Timer(this.components);
+            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.txtEKeyword.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
@@ -84,17 +85,18 @@
             this.ribbonControlTop.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControlTop.ExpandCollapseItem,
             this.barButtonItem1,
-            this.barButtonViewLog});
+            this.barButtonViewLog,
+            this.barButtonItem2});
             this.ribbonControlTop.Location = new System.Drawing.Point(0, 0);
             this.ribbonControlTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbonControlTop.MaxItemId = 9;
+            this.ribbonControlTop.MaxItemId = 10;
             this.ribbonControlTop.Name = "ribbonControlTop";
             this.ribbonControlTop.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
             this.ribbonControlTop.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1});
             this.ribbonControlTop.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
-            this.ribbonControlTop.Size = new System.Drawing.Size(1340, 155);
+            this.ribbonControlTop.Size = new System.Drawing.Size(1279, 155);
             this.ribbonControlTop.Paint += new System.Windows.Forms.PaintEventHandler(this.ribbonControl1_Paint);
             // 
             // barButtonItem1
@@ -128,6 +130,7 @@
             // ribbonPageGroup1
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonViewLog);
+            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem2);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             // 
             // repositoryItemComboBox1
@@ -196,8 +199,8 @@
             this.splitContainerControl1.Panel2.Controls.Add(this.btnSaveMinimize);
             this.splitContainerControl1.Panel2.Controls.Add(this.groupFolders);
             this.splitContainerControl1.Panel2.Text = "Panel2";
-            this.splitContainerControl1.Size = new System.Drawing.Size(1340, 662);
-            this.splitContainerControl1.SplitterPosition = 666;
+            this.splitContainerControl1.Size = new System.Drawing.Size(1279, 662);
+            this.splitContainerControl1.SplitterPosition = 640;
             this.splitContainerControl1.TabIndex = 9;
             this.splitContainerControl1.Text = "splitContainerControl1";
             // 
@@ -206,7 +209,7 @@
             this.ddlMinutes.Font = new System.Drawing.Font("Tahoma", 11F);
             this.ddlMinutes.FormattingEnabled = true;
             this.ddlMinutes.Items.AddRange(new object[] {
-            "1 minutes",
+            "1 minute",
             "2 minutes",
             "5 minutes",
             "10  minutes",
@@ -315,12 +318,21 @@
             // 
             this.postTimer.Tick += new System.EventHandler(this.postTimer_Tick);
             // 
+            // barButtonItem2
+            // 
+            this.barButtonItem2.Caption = "Quit";
+            this.barButtonItem2.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem2.Glyph")));
+            this.barButtonItem2.Id = 9;
+            this.barButtonItem2.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem2.LargeGlyph")));
+            this.barButtonItem2.Name = "barButtonItem2";
+            this.barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
+            // 
             // RapidAlert
             // 
             this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.False;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1340, 817);
+            this.ClientSize = new System.Drawing.Size(1279, 817);
             this.Controls.Add(this.splitContainerControl1);
             this.Controls.Add(this.ribbonControlTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -380,6 +392,7 @@
        // private DevExpress.XtraBars.BarCheckItem barCheckStartWithWindows;
         //private DevExpress.XtraBars.BarEditItem barEditItem2;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         //private DevExpress.XtraBars.BarToggleSwitchItem barToggleSwitchItem1;
 
     }
