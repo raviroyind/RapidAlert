@@ -39,6 +39,9 @@
     <Reference Include="DevExpress.XtraBars.v14.1" />
     <Reference Include="DevExpress.Sparkline.v14.1.Core" />
     <Reference Include="DevExpress.XtraEditors.v14.1" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -58,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AppSetting.cs" />
-    <Compile Include="Classes\Logger.cs" />
     <Compile Include="Classes\RapidFile.cs" />
     <Compile Include="Classes\Watcher.cs" />
     <Compile Include="RapidAlert.cs">
@@ -83,6 +85,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="App.config" />
+    <None Include="bin\Debug\RapidAlert.exe.config" />
+    <None Include="bin\Debug\RapidAlert.vshost.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -99,6 +104,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gear-icon-291x300.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\log4net.dll" />
+    <Content Include="bin\Debug\log4net.xml" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\RapidAlert.exe" />
+    <Content Include="bin\Debug\RapidAlert.pdb" />
+    <Content Include="bin\Debug\RapidAlert.vshost.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\logs\" />
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

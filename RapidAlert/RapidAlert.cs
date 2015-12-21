@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -11,12 +12,14 @@ using DevExpress.XtraEditors;
 using Newtonsoft.Json;
 using RapidAlert.Classes;
 using RapidAlert.Properties;
+using log4net;
+using log4net.Config;
 
 namespace RapidAlert
 {
     public partial class RapidAlert : RibbonForm
     {
-
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(RapidAlert));
         private delegate void invokeMethodDelegate(object sender, FileSystemEventArgs e);
 
         public static string Kewords = "";
@@ -24,6 +27,7 @@ namespace RapidAlert
         public static List<RapidFile> FileList=new List<RapidFile>();
         public RapidAlert()
         {
+            XmlConfigurator.Configure();
             InitializeComponent();
             CheckFolders();
             LoadConfiguration();
@@ -38,8 +42,7 @@ namespace RapidAlert
             }
 
             listBoxKeywords.Items.Add(txtEKeyword.EditValue.ToString());
-            txtEKeyword.EditValue = string.Empty;
-            txtEKeyword.Focus();
+            txtEKeyword.EditValue = string.Empty;txtEKeyword.Focus();
         }
 
         #region Functions...
@@ -55,35 +58,65 @@ namespace RapidAlert
         {
             var keywordMatch = false;
 
-            foreach (var word in Kewords.Split(',').Where(word =>
-            {
-                var fileName = Path.GetFileName(e.FullPath);
-                return fileName != null && fileName.Contains(word);
-            }))
-            {
-                keywordMatch = true;
-                var filename = Path.GetFileName(e.FullPath);
-                var duplicate =FileList.FirstOrDefault(x => x.FileName.Equals(filename) && x.Location.Equals(e.FullPath));
 
-                if (duplicate == null)
+            foreach (var word in Kewords.Split(','))
+            {
+                var filename = Path.GetFileNameWithoutExtension(e.FullPath).ToLower();
+                var extenion = Path.GetExtension(e.FullPath).ToLower();
+
+                if (word.ToLower().Contains(filename) || word.ToLower().StartsWith(filename) || word.ToLower().EndsWith(filename) || word.Contains(extenion) || filename.ToLower().Contains(word.ToLower()) ||filename.ToLower().StartsWith(word) || filename.ToLower().EndsWith(word))
                 {
-                    FileList.Add(
-                        new RapidFile
-                        {
-                            FileName = Path.GetFileName(e.FullPath),
-                            Location = e.FullPath,
-                            ComputerName = Environment.MachineName,
-                            DetectionStatus = Status.Detection
-                        }
-                   );
-  
-                    //Make entry to log file.
-                    Logger.Log("Detected "+filename+ " at location -"+e.FullPath.Substring(0,e.FullPath.LastIndexOf("\\", StringComparison.Ordinal)));
-                     
+                    keywordMatch = true;
+                   var duplicate = FileList.FirstOrDefault(x => x.location.ToLower().Contains(filename.ToLower()) && x.location.ToLower().Equals(e.FullPath.ToLower()));
+
+                    if (duplicate == null)
+                    {
+                        FileList.Add(new RapidFile
+                            {
+                                status = DetectionStatus.Detection,
+                                location = e.FullPath,
+                                computer_name = Environment.MachineName,
+                            }
+                       );
+
+                        //Make entry to log file.
+                        Logger.Info("Detected " + e.Name + " at location -" +
+                                    e.FullPath.Substring(0, e.FullPath.LastIndexOf("\\", StringComparison.Ordinal))+"\\");
+                        
+
+                    }
                 }
+
             }
+            //foreach (var word in Kewords.Split(',').Where(word =>
+            //{
+            //    var fileName = Path.GetFileName(e.FullPath);
+            //    return fileName != null && fileName.ToLower().Contains(word.ToLower());
+            //}))
+            //{
+            //    keywordMatch = true;
+            //    var filename = Path.GetFileName(e.FullPath);
+            //    var duplicate = FileList.FirstOrDefault(x => x.location.ToLower().Contains(filename.ToLower()) && x.location.ToLower().Equals(e.FullPath.ToLower()));
+
+            //    if (duplicate == null)
+            //    {
+            //        FileList.Add(
+            //            new RapidFile
+            //            {
+            //                status = DetectionStatus.Detection,
+            //                location = e.FullPath,
+            //                computer_name = Environment.MachineName,
+            //            }
+            //       );
+  
+            //        //Make entry to log file.
+            //        Logger.Log("Detected "+filename+ " at location -"+e.FullPath.Substring(0,e.FullPath.LastIndexOf("\\", StringComparison.Ordinal)));
+                     
+            //    }
+            //}
              
-            return keywordMatch;}
+            return keywordMatch;
+        }
        
         private void LoadConfiguration()
         {
@@ -267,33 +300,27 @@ namespace RapidAlert
         }
 
         private void appNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            this.WindowState = FormWindowState.Normal;
+        {this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
             this.Show();
-            this.appNotifyIcon.Icon = null;
-        }
-
+            this.appNotifyIcon.Icon.Dispose();}
         private async void postTimer_Tick(object sender, EventArgs e)
         { 
-            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(FileList));
-
-            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-
-            using (var httpClient = new HttpClient())
+           var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(FileList));
+           stringPayload = stringPayload.ToLower();
+           var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+           using (var httpClient = new HttpClient())
             {
                 var httpResponse = await httpClient.PostAsync(Resources.API_URL, httpContent);
-
-                if (httpResponse.Content != null)
+               if (httpResponse.Content != null)
                 {
-                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                    FileList.Clear();
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();FileList.Clear();
                 }
             }
         }
-
         private void barButtonViewLog_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RapidAlert\\Logs\\");
         }
 
         private void ribbonControl1_Paint(object sender, PaintEventArgs e)

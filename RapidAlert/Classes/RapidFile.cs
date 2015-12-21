@@ -2,16 +2,17 @@
 
 namespace RapidAlert.Classes
 {
-    public enum Status
+    public enum DetectionStatus
     {
        Detection=1,
        Status =0
     }
     public class RapidFile
     {
-        public string FileName { get; set; }
-        public string Location { get; set; }
-        public string ComputerName { get; set; }
-        public Status DetectionStatus { get; set; }
+        public DetectionStatus status { get; set; }
+        
+        public string location { get; set; }
+        public string computer_name { get; set; }
+        
     }
 }

@@ -61,16 +61,7 @@ namespace RapidAlert.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string A {
-            get {
-                return ResourceManager.GetString("A", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://www.rapidtask.us/API/agent/.
+        ///   Looks up a localized string similar to http://rapidtask.us/API/agent.
         /// </summary>
         internal static string API_URL {
             get {
