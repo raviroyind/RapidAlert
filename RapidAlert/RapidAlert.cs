@@ -4,37 +4,37 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
+using log4net;
+using log4net.Config;
 using Newtonsoft.Json;
 using RapidAlert.Classes;
 using RapidAlert.Properties;
-using log4net;
-using log4net.Config;
 
 namespace RapidAlert
 {
     public partial class RapidAlert : RibbonForm
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(RapidAlert));
-        private delegate void invokeMethodDelegate(object sender, FileSystemEventArgs e);
-
         public static string Kewords = "";
-
         public static List<RapidFile> FileList=new List<RapidFile>();
+
         public RapidAlert()
         {
             XmlConfigurator.Configure();
             InitializeComponent();
-            splitContainerControl1.SplitterPosition = this.splitContainerControl1.Width / 2;this.splitContainerControl1.Panel1.Width = this.splitContainerControl1.Width/2;
+            splitContainerControl1.SplitterPosition = this.splitContainerControl1.Width / 2;
+            this.splitContainerControl1.Panel1.Width = this.splitContainerControl1.Width / 2;
             this.splitContainerControl1.Panel2.Width = this.splitContainerControl1.Width / 2;
             CheckFolders();
-            LoadConfiguration();}
+            LoadConfiguration();
+        }
 
         private void btnAddKeyword_Click(object sender, EventArgs e)
         {
@@ -50,13 +50,7 @@ namespace RapidAlert
 
         #region Functions...
          
-        private static void InvokeMethod(object sender, FileSystemEventArgs e)
-        {
-            if (e.ChangeType == WatcherChangeTypes.Created || e.ChangeType == WatcherChangeTypes.Changed)
-            {
-                CheckKeywordsMatch(e);
-            }
-        }
+        
         private static void CheckKeywordsMatch(FileSystemEventArgs e)
         {
             foreach (var word in Kewords.Split(','))
@@ -82,7 +76,6 @@ namespace RapidAlert
                         Logger.Info("Detected " + e.Name + " at location -" + e.FullPath.Substring(0, e.FullPath.LastIndexOf("\\", StringComparison.Ordinal))+"\\");
                    }
                 }
-                
             }
         }
 
@@ -96,6 +89,7 @@ namespace RapidAlert
             else
                 return false;
         }
+
         private void LoadConfiguration()
         {
             var inif =
@@ -161,23 +155,39 @@ namespace RapidAlert
 
         private void BeginProcess()
         {
-            invokeMethodDelegate mymethod = new invokeMethodDelegate(InvokeMethod);
-
+            
             foreach (var item in listBoxFolders.Items)
             {
-                var watcher = new Watcher(item.ToString(), "*.*", mymethod);
-                watcher.StartWatch();
+                var myWatcher = new FileSystemWatcher(item.ToString(), "*.*");
+
+                myWatcher.Changed += this.myWatcher_Changed;
+                myWatcher.Created += this.myWatcher_Created;
+                myWatcher.Renamed += this.myWatcher_Renamed;
+                myWatcher.IncludeSubdirectories = true;
+                myWatcher.EnableRaisingEvents = true;
+                 
             }
             
             postTimer.Interval = GetInterval();
             postTimer.Start();
-
-
             appNotifyIcon.BalloonTipTitle = Resources.RapidAlert_BeginProcess_Rapid_Alert;
             appNotifyIcon.BalloonTipText = Resources.RapidAlert_BeginProcess_Rapid_Alert_Process_is_running_in_background_;
-            appNotifyIcon.Visible = true;
-            appNotifyIcon.ShowBalloonTip(500);this.ShowInTaskbar = false;
+            appNotifyIcon.Visible = true;appNotifyIcon.ShowBalloonTip(500);this.ShowInTaskbar = false;
             this.Hide();
+        
+        }
+        private void myWatcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            CheckKeywordsMatch(e);
+        }
+        private void myWatcher_Created(object sender, FileSystemEventArgs e)
+        {
+            CheckKeywordsMatch(e);
+        }
+
+        private void myWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            CheckKeywordsMatch(e);
         }
 
         private int GetInterval()
@@ -193,7 +203,8 @@ namespace RapidAlert
             var specialFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                 "\\RapidAlert\\";
 
-            var logFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + "\\Orca Solutions\\RapidAlert 1. 0\\logs\\";
+            var logFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                "\\RapidAlert\\Logs";
 
             if (!Directory.Exists(specialFolderPath))
             {
@@ -277,7 +288,8 @@ namespace RapidAlert
         }
 
         private void appNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {this.WindowState = FormWindowState.Normal;
+        {
+            this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
             this.Show();
             this.appNotifyIcon.Icon.Dispose();
@@ -285,7 +297,7 @@ namespace RapidAlert
 
         private async void postTimer_Tick(object sender, EventArgs e)
         {
-            if (FileList.Count == 0)
+           if (FileList.Count == 0)
                 return;
            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(FileList));
              
@@ -300,9 +312,9 @@ namespace RapidAlert
            }
         }
 
-        private void barButtonViewLog_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barButtonViewLog_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + "\\Orca Solutions\\RapidAlert 1. 0\\logs\\");
+            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +"\\RapidAlert\\Logs\\");
         }
 
         private void ribbonControl1_Paint(object sender, PaintEventArgs e)
@@ -319,12 +331,12 @@ namespace RapidAlert
                 appNotifyIcon.Icon = Resources.Gear_icon_291x300; appNotifyIcon.Visible = true;
                 appNotifyIcon.ShowBalloonTip(500);
                 this.ShowInTaskbar = false;
-                this.Hide();
-                BeginProcess();e.Cancel = true;
+                this.Hide();BeginProcess();
+                e.Cancel = true;
             }
         }
 
-        private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)
         {
             Application.Exit();
         }

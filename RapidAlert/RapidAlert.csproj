@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="Classes\AppSetting.cs" />
     <Compile Include="Classes\RapidFile.cs" />
-    <Compile Include="Classes\Watcher.cs" />
     <Compile Include="RapidAlert.cs">
       <SubType>Form</SubType>
     </Compile>
